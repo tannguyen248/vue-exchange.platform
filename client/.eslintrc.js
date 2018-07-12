@@ -28,7 +28,9 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 'off',
 
+    // custom for VeTUR formatter
     'semi': ['warn', 'always'],
+    "space-before-function-paren": ["off", "ignore"],
 
     // allow paren-less arrow functions
     'arrow-parens': 0,
