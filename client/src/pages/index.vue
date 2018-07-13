@@ -99,7 +99,6 @@ export default {
   methods: {
     rowClick (selected) {
       this.$router.push({ path: `exchange/${selected.pair.replace('/', '_')}` });
-      console.log(selected);
     }
   }
 };

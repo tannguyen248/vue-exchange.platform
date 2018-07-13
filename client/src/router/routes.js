@@ -5,7 +5,7 @@ export default [
     component: () => import('layouts/default'),
     children: [
       { path: '', component: () => import('pages/index') },
-      { path: '/exchange/:pair', component: () => import('pages/exchange') }
+      { path: '/exchange/:pair', component: () => import('pages/Exchange') }
     ]
   },
 
