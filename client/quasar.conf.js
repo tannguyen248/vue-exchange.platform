@@ -74,7 +74,8 @@ module.exports = function (ctx) {
         'QSearch',
         'QSelect',
         'QField',
-        'QInput'
+        'QInput',
+        'QVideo'
       ],
       directives: [
         'Ripple'
