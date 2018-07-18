@@ -10,7 +10,7 @@
               <q-btn flat no-wrap size="lg" to='/'>
                 <img alt="Quasar logo" src="../statics/icons/favicon-32x32.png">&nbsp;QUASAR
               </q-btn>
-              <q-btn flat no-wrap size="md" label="MARKETS" to="/exchange/XVG_BTC" />
+              <q-btn flat no-wrap size="md" label="MARKETS" :to="exchange" />
               <q-btn flat no-wrap size="md" label="PAWN SHOP" />
             </div>
             <div class="lt-md">
@@ -21,8 +21,8 @@
         </template>
         <template>
             <div class="gt-sm">
-              <q-btn flat no-wrap size="md" label="LOGIN" /> |
-              <q-btn flat no-wrap size="md" label="REGISTER" /> |
+              <q-btn flat no-wrap size="md" label="LOG IN" :to="login" /> |
+              <q-btn flat no-wrap size="md" label="REGISTER" :to="register" /> |
               <q-btn-dropdown flat label="Language">
                 <!-- dropdown content -->
                 <q-list link>
@@ -39,11 +39,13 @@
                 flat
                 dense
                 label="Register"
+                :to="register"
               />
 
               <q-btn
                 flat
-                label="Login"
+                label="LOG IN"
+                :to="login"
               />
 
               <q-btn
@@ -56,16 +58,16 @@
 
               <q-layout-drawer side="right" v-model="drawer" :content-class="['bg-primary', 'q-pa-sm']">
                 <q-list highlight no-border dark>
-                  <q-item>
+                  <q-item :to="register">
                     Register
                   </q-item>
-                  <q-item>
-                    Login
+                  <q-item :to="login">
+                    LOG IN
                   </q-item>
                   <q-item to="/">
                     Home
                   </q-item>
-                  <q-item to="/exchange/XVG_BTC">
+                  <q-item :to="exchange">
                     Markets
                   </q-item>
                   <q-item>
@@ -90,12 +92,17 @@
 
 <script>
 import { openURL } from 'quasar';
+import routePaths from '../router/routePaths';
 
 export default {
   name: 'LayoutDefault',
   data () {
     return {
-      drawer: false
+      drawer: false,
+      index: routePaths.index(),
+      register: routePaths.register(),
+      login: routePaths.login(),
+      exchange: routePaths.exchange('ETH_BTC')
     };
   },
   methods: {

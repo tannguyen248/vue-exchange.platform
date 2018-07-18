@@ -1,11 +1,15 @@
+import routePath from './routePaths';
 
 export default [
   {
     path: '/',
     component: () => import('layouts/default'),
     children: [
-      { path: '', component: () => import('pages/index') },
-      { path: '/exchange/:pair', component: () => import('pages/Exchange') }
+      { path: routePath.index(), component: () => import('pages/index') },
+      { path: routePath.exchange(':pair'), component: () => import('pages/Exchange') },
+      { path: routePath.offer(':id'), component: () => import('pages/ExchangeTrading') },
+      { path: routePath.register(), component: () => import('pages/SignUp') },
+      { path: routePath.login(), component: () => import('pages/SignIn') }
     ]
   },
 

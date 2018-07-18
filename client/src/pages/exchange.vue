@@ -52,7 +52,7 @@
             <q-icon name="account_circle" /> {{ props.row.author }}
           </q-td>
           <q-td class="actions">
-            <q-btn label="Buy" />
+            <q-btn label="Buy" to='/offer/id' />
           </q-td>
         </q-tr>
       </q-table>

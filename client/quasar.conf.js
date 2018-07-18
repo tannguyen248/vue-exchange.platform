@@ -5,7 +5,8 @@ module.exports = function (ctx) {
     // app plugins (/src/plugins)
     plugins: [
       'i18n',
-      'axios'
+      'axios',
+      'firebase'
     ],
     css: [
       'app.styl'
@@ -75,7 +76,12 @@ module.exports = function (ctx) {
         'QSelect',
         'QField',
         'QInput',
-        'QVideo'
+        'QVideo',
+        'QCollapsible',
+        'QCard',
+        'QCardTitle',
+        'QCardMain',
+        'QCardSeparator'
       ],
       directives: [
         'Ripple'
