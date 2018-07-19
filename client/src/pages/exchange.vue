@@ -130,6 +130,8 @@ export default {
   data () {
     return {
       pair: this.$route.params.pair,
+      filter: '',
+      separator: 'horizontal',
       tableData: [
         {
           price: '0.00002040',
