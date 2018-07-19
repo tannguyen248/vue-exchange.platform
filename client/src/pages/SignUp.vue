@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import routePaths from '../router/routePaths';
+
 export default {
   name: 'SignUp',
   data () {
@@ -34,10 +36,9 @@ export default {
   },
   methods: {
     signUp () {
-      console.log('click')
       this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         user => {
-          console.log('Created', user);
+          this.$router.replace(routePaths.exchange());
         },
         error => {
           console.log(error);

@@ -21,8 +21,13 @@
         </template>
         <template>
             <div class="gt-sm">
-              <q-btn flat no-wrap size="md" label="LOG IN" :to="login" /> |
-              <q-btn flat no-wrap size="md" label="REGISTER" :to="register" /> |
+              <template v-if="isLogin">
+                <q-btn flat no-wrap size="md" label="Log Out" @click="signOut" /> |
+              </template>
+              <template v-else>
+                <q-btn flat no-wrap size="md" label="LOG IN" :to="login" /> |
+                <q-btn flat no-wrap size="md" label="REGISTER" :to="register" /> |
+              </template>
               <q-btn-dropdown flat label="Language">
                 <!-- dropdown content -->
                 <q-list link>
@@ -35,18 +40,20 @@
               </q-btn-dropdown>
             </div>
             <div class="lt-md">
-              <q-btn
-                flat
-                dense
-                label="Register"
-                :to="register"
-              />
+              <template v-if="!isLogin">
+                <q-btn
+                  flat
+                  dense
+                  label="Register"
+                  :to="register"
+                />
 
-              <q-btn
-                flat
-                label="LOG IN"
-                :to="login"
-              />
+                <q-btn
+                  flat
+                  label="Log In"
+                  :to="login"
+                />
+              </template>
 
               <q-btn
                 @click="drawer = !drawer"
@@ -58,12 +65,19 @@
 
               <q-layout-drawer side="right" v-model="drawer" :content-class="['bg-primary', 'q-pa-sm']">
                 <q-list highlight no-border dark>
-                  <q-item :to="register">
-                    Register
-                  </q-item>
-                  <q-item :to="login">
-                    LOG IN
-                  </q-item>
+                  <template v-if="isLogin">
+                    <q-item @click="signOut">
+                      Log out
+                    </q-item>
+                  </template>
+                  <template v-else>
+                    <q-item :to="register">
+                      Register
+                    </q-item>
+                    <q-item :to="login">
+                      Log In
+                    </q-item>
+                  </template>
                   <q-item to="/">
                     Home
                   </q-item>
@@ -105,8 +119,16 @@ export default {
       exchange: routePaths.exchange('ETH_BTC')
     };
   },
+  computed: {
+    isLogin () {
+      return this.$store.getters['user/isLogin'];
+    }
+  },
   methods: {
     openURL,
+    signOut () {
+      this.$firebase.auth().signOut()
+    },
     handlerFunction: function (event) {
       console.log(event);
     }

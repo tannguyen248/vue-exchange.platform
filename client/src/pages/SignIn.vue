@@ -41,7 +41,7 @@ export default {
     signIn () {
       this.$firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
         user => {
-          console.log('Created', user);
+          this.$router.replace(routePaths.exchange());
         },
         error => {
           console.log(error);
