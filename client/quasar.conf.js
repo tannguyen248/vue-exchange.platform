@@ -6,7 +6,8 @@ module.exports = function (ctx) {
     plugins: [
       'i18n',
       'axios',
-      'firebase'
+      'routeEvents',
+      'boot'
     ],
     css: [
       'app.styl'
@@ -81,7 +82,8 @@ module.exports = function (ctx) {
         'QCard',
         'QCardTitle',
         'QCardMain',
-        'QCardSeparator'
+        'QCardSeparator',
+        'QPopover'
       ],
       directives: [
         'Ripple'

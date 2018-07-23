@@ -21,6 +21,13 @@ export default [
         }
       },
       {
+        path: routePath.deposits(),
+        component: () => import('pages/Deposit'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: routePath.register(),
         component: () => import('pages/SignUp')
       },
@@ -35,4 +42,4 @@ export default [
     path: '*',
     component: () => import('pages/404')
   }
-]
+];

@@ -38,17 +38,13 @@ export default {
     signUp () {
       this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         user => {
-          this.$router.replace(routePaths.exchange());
+          this.$router.push(routePaths.exchange());
         },
         error => {
           console.log(error);
         }
-      )
+      );
     }
   }
-}
+};
 </script>
-
-<style scoped>
-
-</style>

@@ -21,17 +21,50 @@
         </template>
         <template>
             <div class="gt-sm">
+              <q-btn @click.native="signOut" label="Sign out" />
               <template v-if="isLogin">
-                <q-btn flat no-wrap size="md" label="Log Out" @click="signOut" /> |
+                  <span>
+                    <q-btn flat size="md" icon="account_balance_wallet" label="Fund" @click="showingWalletMenu = true" /> |
+                    <q-popover anchor="bottom left" v-model="showingWalletMenu">
+                      <q-list separator link>
+                        <q-item to="/">
+                          Balances
+                        </q-item>
+                        <q-item :to="routePaths.deposits()">
+                          Deposits
+                        </q-item>
+                        <q-item>
+                          Withdrawals
+                        </q-item>
+                        <q-item>
+                          Transaction History
+                        </q-item>
+                      </q-list>
+                    </q-popover>
+                  </span>
+                  <span>
+                    <q-btn flat round size="md" icon="account_circle" @click="showingAccountMenu = true" /> |
+                    <q-popover anchor="bottom left" v-model="showingAccountMenu">
+                      <q-list separator link>
+                        <q-item @click.native="signOut">
+                          <q-item-side icon="dashboard" color="primary" />
+                          <q-item-main label="Dashboard" />
+                        </q-item>
+                        <q-item @click.native="signOut">
+                          <q-item-side icon="alarm_off" color="negative" />
+                          <q-item-main label="Logout" />
+                        </q-item>
+                      </q-list>
+                    </q-popover>
+                  </span>
               </template>
               <template v-else>
                 <q-btn flat no-wrap size="md" label="LOG IN" :to="login" /> |
                 <q-btn flat no-wrap size="md" label="REGISTER" :to="register" /> |
               </template>
               <q-btn-dropdown flat label="Language">
-                <!-- dropdown content -->
                 <q-list link>
-                  <q-item  @click="handlerFunction">
+                  <q-item>
                     <q-item-main>
                       <q-item-tile label>English</q-item-tile>
                     </q-item-main>
@@ -105,7 +138,6 @@
 </template>
 
 <script>
-import { openURL } from 'quasar';
 import routePaths from '../router/routePaths';
 
 export default {
@@ -113,10 +145,14 @@ export default {
   data () {
     return {
       drawer: false,
+      routePaths: routePaths,
       index: routePaths.index(),
       register: routePaths.register(),
       login: routePaths.login(),
-      exchange: routePaths.exchange('ETH_BTC')
+      deposits: routePaths.deposits(),
+      exchange: routePaths.exchange('ETH_BTC'),
+      showingAccountMenu: false,
+      showingWalletMenu: false
     };
   },
   computed: {
@@ -125,12 +161,8 @@ export default {
     }
   },
   methods: {
-    openURL,
     signOut () {
-      this.$firebase.auth().signOut()
-    },
-    handlerFunction: function (event) {
-      console.log(event);
+      this.$firebase.auth().signOut();
     }
   }
 };

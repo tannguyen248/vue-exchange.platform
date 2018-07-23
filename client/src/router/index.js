@@ -1,9 +1,10 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import routePaths from './routePaths';
+import routes from './routes';
+import { fireApp } from '../services/firebase';
 
-import routes from './routes'
-
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const Router = new VueRouter({
   /*
@@ -19,6 +20,26 @@ const Router = new VueRouter({
   base: process.env.VUE_ROUTER_BASE,
   scrollBehavior: () => ({ y: 0 }),
   routes
-})
+});
 
-export default Router
+Router.beforeEach((to, from, next) => {
+  console.log(Vue);
+  let user = fireApp.auth().currentUser;
+  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth) {
+    if (!user) {
+      next(routePaths.login());
+    } else {
+      next();
+    }
+  } else {
+    if (user && to.path === routePaths.login()) {
+      next(routePaths.exchange());
+    } else {
+      next();
+    }
+  }
+});
+
+export default Router;
