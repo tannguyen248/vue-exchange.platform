@@ -31,6 +31,7 @@ module.exports = {
     // custom for VeTUR formatter
     'semi': ['warn', 'always'],
     "space-before-function-paren": ["off", "ignore"],
+    "new-cap": ["off", { "newIsCap": false }],
 
     // allow paren-less arrow functions
     'arrow-parens': 0,

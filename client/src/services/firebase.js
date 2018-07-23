@@ -63,7 +63,6 @@ const handleAuthStateChange = (user, store, router) => {
 export default {
   // Initiate firebase auth.
   initFirebaseAuth: (app) => {
-    console.log(app);
     return new Promise(resolve => {
       fireApp.auth().onAuthStateChanged(user => {
         handleAuthStateChange(user, app.store, app.router);

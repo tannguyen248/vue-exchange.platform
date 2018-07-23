@@ -23,7 +23,6 @@ const Router = new VueRouter({
 });
 
 Router.beforeEach((to, from, next) => {
-  console.log(Vue);
   let user = fireApp.auth().currentUser;
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 

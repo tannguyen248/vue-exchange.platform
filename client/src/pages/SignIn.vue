@@ -6,18 +6,21 @@
       </q-btn>
       <q-field
         icon="email"
-        error-label="We need a valid email"
+        :error="!!error"
       >
         <q-input v-model="email" type="email" float-label="Email" autocomplete="nope" autofocus />
       </q-field>
 
       <q-field
         icon="lock"
-        error-label="We need a valid password"
+        error-label="The email or password is invalid"
+        :error="!!error"
       >
         <q-input v-model="password" type="password" float-label="Password" />
       </q-field>
-      <q-btn label="Log In" color="primary" class="block full-width q-mt-md" @click="signIn" />
+      <div id="reCaptchaCointainer"></div>
+
+      <q-btn id="signInButton" label="Log In" color="primary" class="block full-width q-mt-md" @click="signIn" />
       <span class="q-body-1 float-right">Not On {{ appName }}? <q-btn flat label="Register" :to="register" /></span>
     </div>
   </q-page>
@@ -34,7 +37,8 @@ export default {
       email: '',
       password: '',
       appName: APP_NAME_PASCAL,
-      register: routePaths.register()
+      register: routePaths.register(),
+      error: ''
     };
   },
   methods: {
@@ -45,6 +49,7 @@ export default {
         },
         error => {
           console.log(error);
+          this.error = 'The email or password is invalid';
         }
       );
     }
