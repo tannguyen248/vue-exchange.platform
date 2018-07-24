@@ -163,6 +163,7 @@ export default {
   methods: {
     signOut () {
       this.$firebase.auth().signOut();
+      this.$router.go(this.$router.currentRoute);
     }
   }
 };

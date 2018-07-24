@@ -45,7 +45,7 @@ const loadPublicInfomation = (user, store) => {
   });
 };
 
-const handleAuthStateChange = (user, store, router) => {
+const handleAuthStateChange = (user, store) => {
   if (user) {
     loadPublicInfomation(user, store);
     saveMessagingDeviceToken();
@@ -55,8 +55,6 @@ const handleAuthStateChange = (user, store, router) => {
       id: null,
       addresses: null
     });
-
-    router.push('/')
   }
 };
 
