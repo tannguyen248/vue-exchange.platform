@@ -1,3 +1,5 @@
 export default {
-  id: null
+  id: null,
+  addresses: null,
+  profile: null
 };

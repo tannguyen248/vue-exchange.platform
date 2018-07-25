@@ -14,6 +14,14 @@ export default [
         component: () => import('pages/Exchange')
       },
       {
+        path: routePath.register(),
+        component: () => import('pages/SignUp')
+      },
+      {
+        path: routePath.login(),
+        component: () => import('pages/SignIn')
+      },
+      {
         path: routePath.offer(':id'),
         component: () => import('pages/ExchangeTrading'),
         meta: {
@@ -28,12 +36,18 @@ export default [
         }
       },
       {
-        path: routePath.register(),
-        component: () => import('pages/SignUp')
+        path: routePath.profile(),
+        component: () => import('pages/Profile'),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
-        path: routePath.login(),
-        component: () => import('pages/SignIn')
+        path: routePath.kyc(),
+        component: () => import('pages/KYC'),
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   },

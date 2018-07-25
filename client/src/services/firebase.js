@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import { setLocalProfile, getLocalProfile, removeLocalProfile } from './account';
 
 const config = {
   apiKey: 'AIzaSyAeJxukIMeNwUsqdcrx28efE1-OHe8Jo64',
@@ -34,14 +35,21 @@ const requestNotificationsPermissions = () => {
 };
 
 const loadPublicInfomation = (user, store) => {
-  fireApp.database().ref(`/users/${user.uid}/public/addresses`).once('value').then((snap) => {
+  fireApp.database().ref(`/users/${user.uid}/public/`).once('value').then((snap) => {
     let data = snap.val();
 
     store.commit({
       type: 'user/setUser',
       id: user.uid,
-      addresses: data
+      addresses: data.addresses
     });
+
+    store.commit({
+      type: 'user/setProfile',
+      profile: data.profile
+    });
+
+    setLocalProfile(data.profile);
   });
 };
 
@@ -55,6 +63,23 @@ const handleAuthStateChange = (user, store) => {
       id: null,
       addresses: null
     });
+
+    store.commit({
+      type: 'user/setProfile',
+      profile: null
+    });
+
+    removeLocalProfile();
+  }
+};
+
+const loadInitProfle = (store) => {
+  let profile = getLocalProfile();
+  if (profile) {
+    store.commit({
+      type: 'user/setProfile',
+      profile: profile
+    });
   }
 };
 
@@ -64,6 +89,7 @@ export default {
     return new Promise(resolve => {
       fireApp.auth().onAuthStateChanged(user => {
         handleAuthStateChange(user, app.store, app.router);
+        loadInitProfle(app.store);
         resolve(true);
       });
     });

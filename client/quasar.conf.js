@@ -84,7 +84,9 @@ module.exports = function (ctx) {
         'QCardTitle',
         'QCardMain',
         'QCardSeparator',
-        'QPopover'
+        'QPopover',
+        'QAlert',
+        'QDatetime'
       ],
       directives: [
         'Ripple'
