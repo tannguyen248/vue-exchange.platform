@@ -44,11 +44,11 @@ export default {
   },
   computed: {
     coins () {
-      const keys = Object.keys(this.$store.state.user.addresses);
+      const keys = Object.keys(this.$store.state.users.addresses);
       let coins = keys.map((x, index) => {
         return {
           name: x.toUpperCase(),
-          address: this.$store.state.user.addresses[x] && this.$store.state.user.addresses[x].test,
+          address: this.$store.state.users.addresses[x] && this.$store.state.users.addresses[x].test,
           default: index === 0
         }
       });

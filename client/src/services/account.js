@@ -20,7 +20,7 @@ export function handleSubmitAccount(store, profile) {
       console.log(error);
     } else {
       store.commit({
-        type: 'user/setProfile',
+        type: 'users/setProfile',
         profile
       });
 

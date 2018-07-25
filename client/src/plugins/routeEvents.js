@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export default ({ app, router, store, Vue }) => {
   router.afterEach((to, from) => {
-    if (store.state.user && store.state.user.addresses && store.state.user.addresses.btc) {
-      let address = store.state.user.addresses.btc.test;
+    if (store.state.user && store.state.users.addresses && store.state.users.addresses.btc) {
+      let address = store.state.users.addresses.btc.test;
 
       axios({
         method: 'GET',

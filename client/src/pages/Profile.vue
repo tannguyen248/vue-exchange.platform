@@ -125,17 +125,17 @@ import { handleSubmitAccount } from '../services/account';
 export default {
   name: 'Profile',
   data () {
-    let profile = this.$store.state.user.profile;
+    let profile = this.$store.state.users.profile;
     let hasProfile = profile && Object.keys(profile).length > 0;
-    console.log(hasProfile);
+
     return {
       hasProfile: hasProfile,
-      name: hasProfile ? this.$store.state.user.profile.name : '',
-      identityNumber: hasProfile ? this.$store.state.user.profile.id : '',
-      dob: hasProfile ? this.$store.state.user.profile.dob : '',
-      phone: hasProfile ? this.$store.state.user.profile.phone : '',
-      email: hasProfile ? this.$store.state.user.profile.email : '',
-      address: hasProfile ? this.$store.state.user.profile.address : ''
+      name: hasProfile ? profile.name : '',
+      identityNumber: hasProfile ? profile.id : '',
+      dob: hasProfile ? profile.dob : '',
+      phone: hasProfile ? profile.phone : '',
+      email: hasProfile ? profile.email : '',
+      address: hasProfile ? profile.address : ''
     };
   },
   methods: {

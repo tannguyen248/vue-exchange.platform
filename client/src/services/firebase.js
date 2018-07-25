@@ -39,13 +39,13 @@ const loadPublicInfomation = (user, store) => {
     let data = snap.val();
 
     store.commit({
-      type: 'user/setUser',
+      type: 'users/setUser',
       id: user.uid,
       addresses: data.addresses
     });
 
     store.commit({
-      type: 'user/setProfile',
+      type: 'users/setProfile',
       profile: data.profile
     });
 
@@ -59,13 +59,13 @@ const handleAuthStateChange = (user, store) => {
     saveMessagingDeviceToken();
   } else {
     store.commit({
-      type: 'user/setUser',
+      type: 'users/setUser',
       id: null,
       addresses: null
     });
 
     store.commit({
-      type: 'user/setProfile',
+      type: 'users/setProfile',
       profile: null
     });
 
@@ -77,7 +77,7 @@ const loadInitProfle = (store) => {
   let profile = getLocalProfile();
   if (profile) {
     store.commit({
-      type: 'user/setProfile',
+      type: 'users/setProfile',
       profile: profile
     });
   }
