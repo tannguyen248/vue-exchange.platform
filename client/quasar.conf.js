@@ -14,7 +14,6 @@ module.exports = function (ctx) {
       'app.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : null,
       'material-icons' // optional, you are not bound to it
       // 'ionicons',
       // 'mdi',
@@ -86,7 +85,10 @@ module.exports = function (ctx) {
         'QCardSeparator',
         'QPopover',
         'QAlert',
-        'QDatetime'
+        'QDatetime',
+        'QStepper',
+        'QStep',
+        'QStepperNavigation'
       ],
       directives: [
         'Ripple'
@@ -94,9 +96,15 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify'
-      ]
+      ],
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
+      i18n: 'vi',
+      config: {
+        notify: {
+          position: 'top',
+          timeout: 2000
+        }
+      }
     },
     // animations: 'all' --- includes all animations
     animations: [

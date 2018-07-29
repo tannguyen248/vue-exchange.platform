@@ -12,11 +12,11 @@ function generateAddressFromSHA256Hash(passphrase) {
   return {
     private: keyPair.toWIF(),
     public: keyPair.getAddress(),
-    mnemonic
+    passphrase
   };
 }
 
-exports.createBitcoinWallet = () => {
+exports.createWallet = () => {
   var mnemonic = bip39.generateMnemonic() + ' ' + Date.now();
   return generateAddressFromSHA256Hash(mnemonic);
 }

@@ -1,7 +1,14 @@
 {
   "functions": {
-    "predeploy": [
-
+    "predeploy": [],
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "dist/spa-mat",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
     ]
   }
 }

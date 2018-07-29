@@ -1,5 +1,10 @@
 import firebase from 'firebase';
-import { setLocalProfile, getLocalProfile, removeLocalProfile } from './account';
+import {
+  setLocalProfile,
+  getLocalProfile,
+  removeLocalProfile
+} from './account';
+import { isValidFileSize } from '../utils/helpers';
 
 const config = {
   apiKey: 'AIzaSyAeJxukIMeNwUsqdcrx28efE1-OHe8Jo64',
@@ -10,7 +15,9 @@ const config = {
   messagingSenderId: '938077555990'
 };
 
-export const fireApp = firebase.initializeApp(config);
+const fireApp = firebase.initializeApp(config);
+
+export { fireApp };
 
 const saveMessagingDeviceToken = () => {
   fireApp.messaging().getToken().then(function(currentToken) {
@@ -35,21 +42,23 @@ const requestNotificationsPermissions = () => {
 };
 
 const loadPublicInfomation = (user, store) => {
-  fireApp.database().ref(`/users/${user.uid}/public/`).once('value').then((snap) => {
+  fireApp.database().ref(`/users/${user.uid}/public/`).on('value', (snap) => {
     let data = snap.val();
 
-    store.commit({
-      type: 'users/setUser',
-      id: user.uid,
-      addresses: data.addresses
-    });
+    if (data) {
+      store.commit({
+        type: 'users/setUser',
+        id: user.uid,
+        addresses: data.addresses
+      });
 
-    store.commit({
-      type: 'users/setProfile',
-      profile: data.profile
-    });
+      store.commit({
+        type: 'users/setProfile',
+        profile: data.profile
+      });
 
-    setLocalProfile(data.profile);
+      setLocalProfile(data.profile);
+    }
   });
 };
 
@@ -57,6 +66,14 @@ const handleAuthStateChange = (user, store) => {
   if (user) {
     loadPublicInfomation(user, store);
     saveMessagingDeviceToken();
+
+    if (!user.emailVerified) {
+      user.sendEmailVerification().then(function() {
+        // Email sent.
+      }).catch(function(error) {
+        console.log(error);
+      });
+    }
   } else {
     store.commit({
       type: 'users/setUser',
@@ -80,6 +97,14 @@ const loadInitProfle = (store) => {
       type: 'users/setProfile',
       profile: profile
     });
+  }
+};
+
+export const saveImage = (file, filename) => {
+  let name = filename || file.name;
+  if (isValidFileSize(file)) {
+    var filePath = fireApp.auth().currentUser.uid + '/verification/' + name;
+    return fireApp.storage().ref(filePath).put(file);
   }
 };
 

@@ -29,7 +29,7 @@
 
 <script>
 import QrcodeVue from 'qrcode.vue';
-import VueClipboard from 'vue-clipboard2'
+import VueClipboard from 'vue-clipboard2';
 
 export default {
   name: 'Deposit',
@@ -50,7 +50,7 @@ export default {
           name: x.toUpperCase(),
           address: this.$store.state.users.addresses[x] && this.$store.state.users.addresses[x].test,
           default: index === 0
-        }
+        };
       });
 
       console.log(coins);

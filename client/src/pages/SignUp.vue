@@ -13,7 +13,7 @@
           type="email"
           float-label="Email"
           autocomplete="nope"
-          @keyup.enter="signIn"
+          @keyup.enter="signUp"
           autofocus
         />
       </q-field>
@@ -27,7 +27,7 @@
           v-model="password"
           type="password"
           float-label="Password"
-          @keyup.enter="signIn"
+          @keyup.enter="signUp"
         />
       </q-field>
 
@@ -40,7 +40,7 @@
           v-model="rePassword"
           type="password"
           float-label="Confirm Password"
-          @keyup.enter="signIn"
+          @keyup.enter="signUp"
           @blur="$v.rePassword.$touch"
         />
       </q-field>
@@ -88,6 +88,7 @@ export default {
     signUp () {
       this.$v.email.$touch();
       this.$v.password.$touch();
+      this.$v.rePassword.$touch();
 
       if (this.error && this.$v.$invalid) {
         return;

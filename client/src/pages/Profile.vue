@@ -3,33 +3,33 @@
     <div>
       <q-card>
         <q-card-title>
-          <q-icon name="star" color="primary" /> Your Profile
+          <q-icon name="star" color="primary" /> {{ $t('label.yourProfile') }}
           <div slot="subtitle" class="row column gutter-y-sm" v-if="!hasProfile">
             <q-alert
               type="warning"
               icon="warning"
             >
-              You can only submit 1 time.
+              {{ $t('warning.warningSubmitOne') }}
             </q-alert>
             <q-alert
                 type="warning"
                 icon="warning"
               >
-              You must fill all infomation as you ID card.
+              {{ $t('warning.warningSameAsId') }}
             </q-alert>
             <q-alert
                 type="warning"
                 icon="warning"
               >
-              This information use to verify you own this account
+              {{ $t('warning.warningGettingAccount') }}
             </q-alert>
           </div>
           <div slot="subtitle" class="row column gutter-y-sm" v-else>
             <q-alert
-                type="warning"
-                icon="warning"
+                type="info"
+                icon="info"
               >
-              You can contact us to change profile
+              {{ $t('message.changeAccount') }}
             </q-alert>
           </div>
         </q-card-title>
@@ -42,7 +42,7 @@
           >
             <q-input
               v-model="name"
-              placeholder="Name"
+              :placeholder="$t('label.name')"
               :readonly="hasProfile && !!name"
             />
           </q-field>
@@ -54,7 +54,7 @@
           >
             <q-input
               v-model="identityNumber"
-              placeholder="Identity number"
+              :placeholder="$t('label.identityNumber')"
               :readonly="hasProfile && !!identityNumber"
             />
           </q-field>
@@ -68,7 +68,7 @@
               v-model="dob"
               min="1940-01-01"
               max="2010-12-31"
-              placeholder="Date of birth"
+              :placeholder="$t('label.dateOfBirth')"
               :readonly="hasProfile && !!dob"
             />
           </q-field>
@@ -80,8 +80,9 @@
           >
             <q-input
               v-model="phone"
-              placeholder="Cell phone"
+              :placeholder="$t('label.cellPhoneNumber')"
               :readonly="hasProfile && !!phone"
+              type="number"
             />
           </q-field>
 
@@ -91,9 +92,10 @@
             :error="$v.email.$error"
           >
             <q-input
+              readonly
               v-model="email"
-              placeholder="Email"
-              :readonly="hasProfile && !!email"
+              :placeholder="$t('label.email')"
+              type="email"
             />
           </q-field>
 
@@ -104,12 +106,16 @@
           >
             <q-input
               v-model="address"
-              placeholder="123 Street name, ward 13, district 10"
+              :placeholder="$t('label.address')"
               :readonly="hasProfile && !!address"
             />
           </q-field>
           <div class="col-12" v-if="!hasProfile" >
-            <q-btn label="Submit" @click="submit" />
+            <q-btn
+              :label="$t('label.submit')"
+              :loading="isLoading"
+              @click="submit"
+            />
           </div>
         </q-card-main>
       </q-card>
@@ -118,7 +124,7 @@
 </template>
 
 <script>
-import { required, email, minLength } from 'vuelidate/lib/validators';
+import { required, email, minLength, numeric } from 'vuelidate/lib/validators';
 import { date } from 'quasar';
 import { handleSubmitAccount } from '../services/account';
 
@@ -134,14 +140,15 @@ export default {
       identityNumber: hasProfile ? profile.id : '',
       dob: hasProfile ? profile.dob : '',
       phone: hasProfile ? profile.phone : '',
-      email: hasProfile ? profile.email : '',
-      address: hasProfile ? profile.address : ''
+      email: this.$firebase.auth().currentUser.email,
+      address: hasProfile ? profile.address : '',
+      isLoading: false
     };
   },
   methods: {
     submit () {
       this.$v.$touch();
-      let form = {
+      let profile = {
         name: this.name,
         id: this.identityNumber,
         dob: date.formatDate(this.dob, 'YYYY-MM-DD'),
@@ -154,7 +161,13 @@ export default {
         return;
       }
 
-      handleSubmitAccount(this.$store, form);
+      if (profile && profile.name && profile.id && profile.dob && profile.phone && profile.email && profile.address) {
+        handleSubmitAccount(this.$store, profile, this.$router).then(() => {
+          this.isLoading = false;
+        });
+
+        this.isLoading = true;
+      }
     }
   },
   validations: {
@@ -169,7 +182,8 @@ export default {
       required
     },
     phone: {
-      required
+      required,
+      numeric
     },
     email: {
       required,

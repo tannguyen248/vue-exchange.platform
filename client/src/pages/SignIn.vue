@@ -36,6 +36,7 @@
         label="Log In"
         color="primary"
         class="block full-width q-mt-md"
+        :loading="isLoading"
         @click="signIn"
       />
 
@@ -59,7 +60,8 @@ export default {
       password: '',
       appName: APP_NAME_PASCAL,
       register: routePaths.register(),
-      serverError: false
+      serverError: false,
+      isLoading: false
     };
   },
   computed: {
@@ -86,15 +88,20 @@ export default {
         return;
       }
 
-      this.$firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-        user => {
-          this.$router.push(routePaths.exchange());
-        },
-        error => {
-          console.log(error);
-          this.serverError = true;
-        }
-      );
+      if (!this.isLoading) {
+        this.$firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+          user => {
+            this.$router.push(routePaths.exchange());
+          },
+          error => {
+            console.log(error);
+            this.serverError = true;
+            this.isLoading = false;
+          }
+        );
+
+        this.isLoading = true;
+      }
     }
   }
 };
