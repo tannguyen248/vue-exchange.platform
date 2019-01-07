@@ -6,6 +6,9 @@
 
 <script>
 import Vue from 'vue';
+import VueClipboard from 'vue-clipboard2'
+
+Vue.use(VueClipboard);
 
 Vue.config.devtools = true;
 export default {
@@ -14,4 +17,7 @@ export default {
 </script>
 
 <style>
+  .underline {
+    text-decoration: underline;
+  }
 </style>

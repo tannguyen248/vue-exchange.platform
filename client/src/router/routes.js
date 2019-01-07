@@ -36,6 +36,13 @@ export default [
         }
       },
       {
+        path: routePath.withdrawal(),
+        component: () => import('pages/Withdrawal'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: routePath.profile(),
         component: () => import('pages/Profile'),
         meta: {

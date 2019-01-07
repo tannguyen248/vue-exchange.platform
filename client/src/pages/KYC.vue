@@ -1,6 +1,12 @@
 <template>
   <q-page padding>
-    <div class="kyc-container">
+    <div v-if="isSubmitted">
+      <KYCSubmitted />
+    </div>
+    <div v-else-if="isVerifed">
+      <KYCVerified />
+    </div>
+    <div class="kyc-container" v-else>
       <KYCRequirement />
       <q-stepper color="primary" ref="stepper" alternative-labels>
         <q-step default name="first" :title="$t('label.frontIdCard')">
@@ -76,12 +82,14 @@
           <q-stepper-navigation class="justify-end">
             <q-btn
               flat
-              color="primary"
-              @click="$refs.stepper.previous()"
+              :loading="isLoading"
               :label="$t('label.back')"
+              @click="$refs.stepper.previous()"
+              color="primary"
               icon="arrow_back_ios"
             />
             <q-btn
+              :loading="isLoading"
               :disabled="!frontIdCard || !backIdCard || !personWithIdCard"
               :label="$t('label.update')"
               @click="upload"
@@ -99,21 +107,35 @@
 import Uploader from '../components/Uploader';
 import KYCExample from '../components/KYCExample';
 import KYCRequirement from '../components/KYCRequirement';
-import { saveImage } from '../services/firebase';
+import KYCSubmitted from '../components/KYCSubmitted';
+import KYCVerified from '../components/KYCVerified';
+import { saveImage, changeVerificationStatus } from '../services/firebase';
+import { VerificationStatus } from '../utils/const';
 
 export default {
   name: 'KYC',
   components: {
     Uploader,
     KYCExample,
-    KYCRequirement
+    KYCRequirement,
+    KYCSubmitted,
+    KYCVerified
   },
   data () {
     return {
       frontIdCard: '',
       backIdCard: '',
-      personWithIdCard: ''
+      personWithIdCard: '',
+      isLoading: false
     };
+  },
+  computed: {
+    isSubmitted () {
+      return this.$store.state.users.verificationStatus === VerificationStatus.submitted;
+    },
+    isVerifed () {
+      return this.$store.state.users.verificationStatus === VerificationStatus.verified;
+    }
   },
   methods: {
     validateInput () {
@@ -128,10 +150,14 @@ export default {
     },
     upload () {
       if (this.validateInput()) {
+        this.isLoading = true;
         Promise.all([saveImage(this.frontIdCard, 'frontIdCard.jpg'), saveImage(this.backIdCard, 'backIdCard.jpg'), saveImage(this.personWithIdCard, 'personWithIdCard.jpg')])
           .then(values => {
+            this.isLoading = false;
+            changeVerificationStatus(VerificationStatus.submitted, this.$store);
+
             this.$q.notify({
-              message: this.$t('message.vetificationSubmit'),
+              message: this.$t('message.verificationSubmit'),
               position: 'top',
               type: 'positive'
             });

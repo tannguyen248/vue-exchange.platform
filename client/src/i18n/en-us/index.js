@@ -5,7 +5,8 @@ export default {
   warning: {
     warningSubmitOne: 'Chỉ được điền một lần duy nhất.',
     warningSameAsId: 'Phải điền giống chứng minh nhân dân.',
-    warningGettingAccount: 'Thông tin này dùng để liên lạc trong trường hợp diễn ra giao dịch tranh chấp.'
+    warningGettingAccount: 'Thông tin này dùng để liên lạc trong trường hợp diễn ra giao dịch tranh chấp.',
+    matchingCoinAddress: 'Send only {{ coin.name }} to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit.'
   },
   message: {
     changeAccount: 'Bạn có thể liên lạc với chúng tôi để sửa thông tin',

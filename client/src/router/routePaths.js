@@ -5,6 +5,7 @@ const routes = {
   offer: (id) => `/offer/${id}`,
   exchange: (pair = 'ETH_BTC') => `/exchange/${pair}`,
   deposits: () => '/deposits',
+  withdrawal: () => '/withdrawal',
   profile: () => '/profile',
   kyc: () => '/kyc'
 };

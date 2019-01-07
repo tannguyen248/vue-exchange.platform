@@ -19,9 +19,8 @@ const getAccountBalance = (store) => {
   }
 };
 
-const redirectWhenNotSubmitProfile = (router, store) => {
+const redirectWhenNotSubmitedProfile = (router, store) => {
   router.beforeEach((to, from, next) => {
-    console.log(to.path);
     if (to.path === routePaths.kyc()) {
       if (!store.state.users || !store.state.users.profile) {
         next(routePaths.profile());
@@ -35,7 +34,7 @@ const redirectWhenNotSubmitProfile = (router, store) => {
 };
 
 export default ({ app, router, store, Vue }) => {
-  redirectWhenNotSubmitProfile(router, store);
+  redirectWhenNotSubmitedProfile(router, store);
 
   router.afterEach((to, from) => {
     getAccountBalance(store);

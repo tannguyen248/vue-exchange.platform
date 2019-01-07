@@ -142,6 +142,7 @@ export default {
       phone: hasProfile ? profile.phone : '',
       email: this.$firebase.auth().currentUser.email,
       address: hasProfile ? profile.address : '',
+      bankAccount: '',
       isLoading: false
     };
   },

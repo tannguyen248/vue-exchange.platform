@@ -1,16 +1,23 @@
 export default {
   warning: {
+    warning: 'Lưu ý',
     warningSubmitOne: 'Chỉ được điền một lần duy nhất.',
     warningSameAsId: 'Phải điền giống chứng minh nhân dân.',
-    warningGettingAccount: 'Thông tin này dùng để liên lạc trong trường hợp diễn ra giao dịch tranh chấp.'
+    warningGettingAccount: 'Thông tin này dùng để liên lạc trong trường hợp diễn ra giao dịch tranh chấp.',
+    matchingCoinAddress: 'Chỉ gửi {coinName} vào địa chỉ này. Địa chỉ này không nhận coin hay token khác ngoài {coinName}',
+    withdrawalWarningSecurity: 'Hãy chắc chắn rằng máy tính, trình duyệt của bạn là an toàn và thông tin của bạn chính xác'
   },
   message: {
     changeAccount: 'Bạn có thể liên lạc với chúng tôi để sửa thông tin',
     onlyShareImage: 'Chỉ được chọn hình',
     limitedImageSize: 'Kích thước hình phải nhỏ hơn 5MB',
-    verificationSubmit: 'Tải thành công. Tài khoản của bạn sẽ được xác thực trong vòng 1 ngày làm việc',
+    verificationSubmit: 'Tải thành công. Yêu cầu của bạn sẽ được xử lí trong vòng 1 ngày làm việc',
     verificationSubmitError: 'Đã có lỗi xảy ra. Bạn hãy thử lại sau ít phút nữa',
-    verificationMissing: 'Bạn chưa tải đủ hình'
+    verificationMissing: 'Bạn chưa tải đủ hình',
+    addressCopied: 'Đã sao chép địa chỉ vào bộ nhớ',
+    unableCopy: 'Chưa thể sao chép đẹp chỉ vào bộ nhớ',
+    requiredFiled: '*Bắt buộc',
+    withdrawalAtleast: 'Số lượng rút tối thiểu là {amount} {coin}'
   },
   label: {
     next: 'Tiếp tục',
@@ -32,13 +39,25 @@ export default {
     dateOfBirth: 'Ngày sinh',
     cellPhoneNumber: 'Số điện thoại di động',
     email: 'Email',
-    address: 'Đia chỉ'
+    address: 'Địa chỉ',
+    nationality: 'Quốc tịch',
+    copyAddress: 'Sao chép địa chỉ',
+    amount: 'Số lượng',
+    deposit: 'Gửi',
+    withdrawal: 'Rút',
+    available: 'Có sẵn',
+    limit: 'Giới hạn',
+    fee: 'Phí',
+    youWillGet: 'Số lượng nhận được'
   },
   content: {
     kycIdInfomationTitle: 'Thông tin của bạn sẽ được bảo vệ.',
     kycIdInfomationSubTitle: 'Hình xác thực cần thoả những yêu cầu sau đây:',
     kycIdInfomation1: 'Chất lượng cao (hình phải ở định dạng PNG, JPG và JPEG, tối đa 5MB).',
     kycIdInfomation2: 'Dễ nhìn hình rõ ràng (hình phải thấy rõ số CMND/Thẻ căn cước).',
-    kycIdInfomation3: 'CMND/Thẻ căn cước phải còn hạn sử dụng và hợp lệ'
+    kycIdInfomation3: 'CMND/Thẻ căn cước phải còn hạn sử dụng và hợp lệ',
+    kycSubmittedTitle: 'Bạn đã nộp đầy đủ thông tin',
+    kycSubmittedBody: 'Yêu cầu của bạn sẽ được xử lí trong vòng 1 ngày làm việc.',
+    kycVerifiedTitle: 'Tài khoản của bạn đã được xác thực'
   }
 };

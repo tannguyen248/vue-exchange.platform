@@ -1,5 +1,6 @@
 export default {
   id: null,
   addresses: null,
-  profile: null
+  profile: null,
+  verificationStatus: 'new'
 };

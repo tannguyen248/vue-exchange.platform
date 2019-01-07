@@ -4,7 +4,7 @@
     "source": "functions"
   },
   "hosting": {
-    "public": "dist/spa-mat",
+    "public": "client/dist/spa-mat",
     "ignore": [
       "firebase.json",
       "**/.*",

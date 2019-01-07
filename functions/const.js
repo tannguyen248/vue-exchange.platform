@@ -1,6 +1,6 @@
-exports.verificationStatus = {
-  new: 'NEW',
-  submitted: 'SUBMITTED',
-  rejected: 'REJECTED',
-  verified: 'VERIFIED'
+exports.VerificationStatus = {
+  new: 'new',
+  submitted: 'submitted',
+  rejected: 'rejected',
+  verified: 'verified'
 };

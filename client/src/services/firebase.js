@@ -1,10 +1,10 @@
 import firebase from 'firebase';
 import {
-  setLocalProfile,
-  getLocalProfile,
-  removeLocalProfile
+  setLocalUser,
+  getLocalUser,
+  removeLocalUser
 } from './account';
-import { isValidFileSize } from '../utils/helpers';
+import { isValidFileSize, isValidatedVerificationStatus } from '../utils/helpers';
 
 const config = {
   apiKey: 'AIzaSyAeJxukIMeNwUsqdcrx28efE1-OHe8Jo64',
@@ -16,6 +16,7 @@ const config = {
 };
 
 const fireApp = firebase.initializeApp(config);
+fireApp.messaging();
 
 export { fireApp };
 
@@ -49,15 +50,12 @@ const loadPublicInfomation = (user, store) => {
       store.commit({
         type: 'users/setUser',
         id: user.uid,
-        addresses: data.addresses
-      });
-
-      store.commit({
-        type: 'users/setProfile',
+        addresses: data.addresses,
+        verificationStatus: data.verificationStatus,
         profile: data.profile
       });
 
-      setLocalProfile(data.profile);
+      setLocalUser(data);
     }
   });
 };
@@ -66,6 +64,7 @@ const handleAuthStateChange = (user, store) => {
   if (user) {
     loadPublicInfomation(user, store);
     saveMessagingDeviceToken();
+    console.log(user);
 
     if (!user.emailVerified) {
       user.sendEmailVerification().then(function() {
@@ -77,26 +76,35 @@ const handleAuthStateChange = (user, store) => {
   } else {
     store.commit({
       type: 'users/setUser',
-      id: null,
-      addresses: null
+      user: null
     });
 
-    store.commit({
-      type: 'users/setProfile',
-      profile: null
-    });
-
-    removeLocalProfile();
+    removeLocalUser();
   }
 };
 
-const loadInitProfle = (store) => {
-  let profile = getLocalProfile();
-  if (profile) {
+const loadInitUserInfomation = (store) => {
+  let user = getLocalUser();
+
+  if (user) {
     store.commit({
-      type: 'users/setProfile',
-      profile: profile
+      type: 'users/setUser',
+      ...user
     });
+  }
+};
+
+export const changeVerificationStatus = (status, store) => {
+  let user = fireApp.auth().currentUser;
+
+  if (user && store.state.users) {
+    const currentStatus = store.state.users.verificationStatus;
+
+    if (isValidatedVerificationStatus(currentStatus, status)) {
+      fireApp.database().ref(`/users/${user.uid}/public/`).update({
+        verificationStatus: status
+      });
+    }
   }
 };
 
@@ -114,7 +122,7 @@ export default {
     return new Promise(resolve => {
       fireApp.auth().onAuthStateChanged(user => {
         handleAuthStateChange(user, app.store, app.router);
-        loadInitProfle(app.store);
+        loadInitUserInfomation(app.store);
         resolve(true);
       });
     });

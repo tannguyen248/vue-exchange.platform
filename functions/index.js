@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const bitcoin = require('./bitcoin');
-const status = require('./const').verificationStatus;
+const status = require('./const').VerificationStatus;
 
 admin.initializeApp();
 

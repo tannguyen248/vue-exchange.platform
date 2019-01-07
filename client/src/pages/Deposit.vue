@@ -2,19 +2,33 @@
   <q-page padding>
     <div class="row">
       <div class="col-md-8">
-          <q-tabs>
-            <q-tab slot="title" v-for="(coin, index) in coins" :key="index" :name="coin.name" :label="coin.name" :default="coin.default">
+          <q-tabs @select="selectCoin" align="left">
+            <q-tab slot="title" v-for="(coin, index) in coins" :key="index" :name="coin.name" :label="coin.name" :default="selectedCoin === coin.name">
             </q-tab>
 
             <q-tab-pane v-for="(coin, index) in coins" :key="index" :name="coin.name">
-              <q-card>
+              <q-card flat>
                 <q-card-title>
                   <div class="q-headline">{{ coin.name }}</div>
                 </q-card-title>
-                <q-card-main>
-                  <div class="q-body-1 text-red"><q-icon name="warning" /> Send only <b>{{ coin.name }}</b> to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit.</div>
-                  <div class="row justify-center">
-                    <h5 class="q-title">{{ coin.address }}</h5>
+                <q-card-main class="gutter-y-sm">
+                  <div class="q-body-1 text-red">
+                    <q-icon name="warning" />
+                    {{ $t('warning.matchingCoinAddress', { coinName: coin.name }) }}
+                  </div>
+                  <div class="row column items-center gutter-y-sm">
+                    <div>
+                      <span class="q-title q-mr-sm vertical-middle">{{ coin.address }}</span>
+                      <q-btn
+                        outline
+                        no-caps
+                        dense
+                        size="md"
+                        @click="copyAddress"
+                        :label="$t('label.copyAddress')"
+                        icon="file_copy"
+                      />
+                    </div>
                     <qrcode-vue :value="coin.address" size="300" level="H"></qrcode-vue>
                   </div>
                 </q-card-main>
@@ -29,32 +43,57 @@
 
 <script>
 import QrcodeVue from 'qrcode.vue';
-import VueClipboard from 'vue-clipboard2';
 
 export default {
   name: 'Deposit',
   components: {
-    QrcodeVue,
-    VueClipboard
+    QrcodeVue
   },
   data () {
     return {
-
+      selectedCoin: 'BTC'
     };
   },
   computed: {
     coins () {
       const keys = Object.keys(this.$store.state.users.addresses);
-      let coins = keys.map((x, index) => {
+
+      let coins = keys.map((x) => {
         return {
           name: x.toUpperCase(),
-          address: this.$store.state.users.addresses[x] && this.$store.state.users.addresses[x].test,
-          default: index === 0
+          address: this.$store.state.users.addresses[x]
         };
       });
 
-      console.log(coins);
+      coins[1] = {
+        name: 'ETH',
+        address: '213sdfdfdsf',
+        default: false
+      };
+
       return coins;
+    }
+  },
+  methods: {
+    selectCoin: function (name) {
+      this.selectedCoin = name;
+    },
+    copyAddress: function () {
+      let coin = this.coins.find(x => x.name === this.selectedCoin);
+      if (coin) {
+        this.$copyText(coin.address).then((e) => {
+          this.$q.notify({
+            message: (this.$t('message.addressCopied')),
+            position: 'top',
+            type: 'positive'
+          });
+        }, function (e) {
+          this.$q.notify({
+            message: (this.$t('message.unableCopy')),
+            position: 'top'
+          });
+        })
+      }
     }
   }
 };

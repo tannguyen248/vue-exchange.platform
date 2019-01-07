@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lhh lpr lff">
+  <q-layout view="lhh lpr lff" :class="{ desktop: $q.platform.is.desktop}">
     <q-layout-header reveal>
       <q-toolbar
         color="primary"
@@ -33,7 +33,7 @@
                         <q-item :to="routePaths.deposits()">
                           Deposits
                         </q-item>
-                        <q-item>
+                        <q-item :to="routePaths.withdrawal()">
                           Withdrawals
                         </q-item>
                         <q-item>
@@ -172,4 +172,7 @@ export default {
 </script>
 
 <style>
+  .desktop {
+    min-width: 1020px;
+  }
 </style>
